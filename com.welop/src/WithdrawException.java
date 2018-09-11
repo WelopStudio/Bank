@@ -30,4 +30,9 @@ public class WithdrawException extends Exception {
         this.wallet = wallet;
         this.lack = lack;
     }
+
+    @Override
+    public String toString() {
+        return wallet + " - transaction failed, $" + lack + " lack.";
+    }
 }
