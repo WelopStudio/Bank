@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * Game room class. This is where several players do play Monopoly-like games but not Monopoly.
+ * Game room class. This is where several wallets do play Monopoly-like games but not Monopoly.
  */
 public class Room {
     private Account administrator;
-    private ArrayList<Wallet> players;
+    private ArrayList<Wallet> wallets;
     private final GameSettings gameSettings;
+    private TransactionManager transactionManager;
 
     /**
      * Returns current room administrator reference.
@@ -28,8 +29,8 @@ public class Room {
      * Returns all wallets of the room.
      * @return ArrayList of wallets involved to current room.
      */
-    public ArrayList<Wallet> getAccounts() {
-        return players;
+    public ArrayList<Wallet> getWallets() {
+        return wallets;
     }
 
     /**
@@ -39,10 +40,17 @@ public class Room {
      */
     public void addPlayer(Account player, String name) {
         try {
-            players.add(player.join(this, name));
+            wallets.add(player.join(this, name));
+            walletOf(player).setBalance(gameSettings.getStartBalance());
         } catch (AlreadyJoinedException e) {
-            System.err.println(e.getAccount() + "is already member of room " + e.getRoom());
+            System.err.println(e.getAccount() + " is already member of room " + e.getRoom());
+        } catch (WalletNotFoundException e) {
+            System.err.println(e);
         }
+    }
+
+    public TransactionManager getTransactionManager() {
+        return transactionManager;
     }
 
     /**
@@ -53,12 +61,23 @@ public class Room {
      */
     Room(Account administrator, String name, GameSettings gameSettings) {
         this.gameSettings = gameSettings;
-        players = new ArrayList<>();
+        wallets = new ArrayList<>();
+        addPlayer(administrator, name);
         setAdministrator(administrator);
-        try {
-            administrator.join(this, name);
-        } catch (AlreadyJoinedException e) {
-            System.err.println(e.getAccount() + "is already member of room " + e.getRoom());
+        transactionManager = new TransactionManager(this, gameSettings);
+    }
+
+    /**
+     * Returns the wallet of stated account in the room.
+     * @param owner Owner who's wallet is to be found.
+     * @return Wallet of the account in this room.
+     * @throws WalletNotFoundException Throws if wallet with specified owner was not found.
+     */
+    public Wallet walletOf(Account owner) throws WalletNotFoundException {
+        for (Wallet w: getWallets()) {
+            if (w.getOwner() == owner)
+                return  w;
         }
+        throw new WalletNotFoundException(owner, this);
     }
 }

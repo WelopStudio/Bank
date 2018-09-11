@@ -100,8 +100,8 @@ public class Account {
      * @param name Administrator's wallet name.
      * @return New room reference.
      */
-    public Room createRoom(String name) {
-        return new Room(this, name, new GameSettings());
+    public Room createRoom(String name, GameSettings gameSettings) {
+        return new Room(this, name, gameSettings);
     }
 
     @Override

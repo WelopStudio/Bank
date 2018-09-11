@@ -7,6 +7,15 @@ public class Test {
         Account a3 = new Account("Anastacia", "anastacia@gmail.com", "asdfgh".hashCode());
         Account a4 = new Account("Christian", "gray@gmail.com", "dominity".hashCode());
 
-        Room room = a1.createRoom("Cat");
+        GameSettings gameSettings = new GameSettings();
+
+        Room room = a1.createRoom("Cat", gameSettings);
+        room.addPlayer(a2, "Hat");
+        room.addPlayer(a3, "Plane");
+        room.addPlayer(a4, "Special Toy");
+
+        room.getTransactionManager().transfer(a1, a2, 500);
+        room.getTransactionManager().withdraw(a3, 300);
+        room.getTransactionManager().deposit(a4, 400);
     }
 }

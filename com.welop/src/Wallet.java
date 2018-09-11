@@ -23,13 +23,21 @@ public class Wallet {
         return name;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     /**
      * Public constructor.
      * @param account Account owner.
      * @param room The room which is this wallet a member of.
      * @param name The name of this wallet ("Cat", "Hat", "Plane", etc.).
      */
-    public Wallet(Account account, Room room, String name) {
+    Wallet(Account account, Room room, String name) {
         this.owner = account;
         this.name = name;
         this.room = room;
@@ -41,7 +49,7 @@ public class Wallet {
      * @param amount Amount to be transferred.
      * @throws WithdrawException Throws when try to transfer more money than it is available.
      */
-    public void transfer(Wallet to, int amount) throws WithdrawException {
+    void transfer(Wallet to, int amount) throws WithdrawException {
         withdraw(amount);
         to.deposit(amount);
     }
@@ -51,7 +59,7 @@ public class Wallet {
      * @param amount Amount to be withdrawn.
      * @throws WithdrawException Throws when try to transfer more money than it is available.
      */
-    public void withdraw(int amount) throws WithdrawException {
+    void withdraw(int amount) throws WithdrawException {
         if (amount >= balance)
             throw new WithdrawException(this, amount - balance);
         balance -= amount;
@@ -61,7 +69,7 @@ public class Wallet {
      * Deposits an amount of money to this wallet.
      * @param amount Amount to be added.
      */
-    public void deposit(int amount) {
+    void deposit(int amount) {
         balance += amount;
     }
 
