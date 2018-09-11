@@ -35,10 +35,11 @@ public class Room {
     /**
      * Adds new account to the room. If successful, also creates room wallet for account.
      * @param player Account of a player to join.
+     * @param name Wallet name for this room.
      */
-    public void addPlayer(Account player) {
+    public void addPlayer(Account player, String name) {
         try {
-            players.add(player.join(this));
+            players.add(player.join(this, name));
         } catch (AlreadyJoinedException e) {
             System.err.println(e.getAccount() + "is already member of room " + e.getRoom());
         }
@@ -46,15 +47,16 @@ public class Room {
 
     /**
      * Package-private constructor. Room can be created only by an Account instance in order to have administrator properly.
-     * @param administrator Creator of the room
+     * @param administrator Creator of the room.
+     * @param name Administrator's wallet name.
      * @param gameSettings GameSettings instance to declare room's rules.
      */
-    Room(Account administrator, GameSettings gameSettings) {
+    Room(Account administrator, String name, GameSettings gameSettings) {
         this.gameSettings = gameSettings;
         players = new ArrayList<>();
         setAdministrator(administrator);
         try {
-            administrator.join(this);
+            administrator.join(this, name);
         } catch (AlreadyJoinedException e) {
             System.err.println(e.getAccount() + "is already member of room " + e.getRoom());
         }

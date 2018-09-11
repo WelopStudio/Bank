@@ -82,12 +82,13 @@ public class Account {
     /**
      * Called by Room.addPlayer(Account). Creates wallet for participating caller-room and associates that wallet to the room.
      * @param room Caller-room.
+     * @param name Wallet name for this room.
      * @throws AlreadyJoinedException Throws if the account is already having room-wallet association for the caller-room.
      */
-    Wallet join(Room room) throws AlreadyJoinedException {
+    Wallet join(Room room, String name) throws AlreadyJoinedException {
         if (wallets.containsKey(room))
             throw new AlreadyJoinedException(this, room);
-        Wallet wallet = new Wallet(this);
+        Wallet wallet = new Wallet(this, room, name);
         wallets.put(room, wallet);
         return wallet;
     }
@@ -98,5 +99,10 @@ public class Account {
      */
     public Room createRoom() {
         return new Room(this, new GameSettings());
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
