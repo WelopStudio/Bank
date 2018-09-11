@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -76,6 +77,7 @@ public class Account {
         setName(name);
         setEmail(email);
         this.passwordHashcode = passwordHashcode;
+        this.wallets = new HashMap<>();
     }
 
 
