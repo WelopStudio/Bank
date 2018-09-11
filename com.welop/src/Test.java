@@ -19,8 +19,10 @@ public class Test {
         roomManager.transfer(a1, a2, 500);
         roomManager.withdraw(a3, 300);
         roomManager.deposit(a4, 400);
-
         roomManager.withdraw(a2, 2001);
 
+        roomManager.transfer(a4, a3, 150);
+
+        roomManager.go(a1);
     }
 }

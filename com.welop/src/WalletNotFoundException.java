@@ -1,17 +1,17 @@
 public class WalletNotFoundException extends Throwable {
-    private Account account;
+    private Wallet wallet;
     private Room room;
 
-    public Account getAccount() {
-        return account;
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public Room getRoom() {
         return room;
     }
 
-    public WalletNotFoundException(Account account, Room room) {
-        this.account = account;
+    public WalletNotFoundException(Wallet wallet, Room room) {
+        this.wallet = wallet;
         this.room = room;
     }
 }

@@ -7,6 +7,10 @@ public class Wallet {
     private Room room;
     private int balance;
 
+    public Room getRoom() {
+        return room;
+    }
+
     /**
      * Returns the wallet owner Account.
      * @return The wallet owner Account.
@@ -60,7 +64,7 @@ public class Wallet {
      * @throws WithdrawException Throws when try to transfer more money than it is available.
      */
     void withdraw(int amount) throws WithdrawException {
-        if (amount >= balance)
+        if (amount > balance)
             throw new WithdrawException(this, amount - balance);
         balance -= amount;
     }

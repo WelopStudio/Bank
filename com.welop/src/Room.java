@@ -44,7 +44,7 @@ public class Room {
             walletOf(player).setBalance(gameSettings.getStartBalance());
         } catch (AlreadyJoinedException e) {
             System.err.println(e.getAccount() + " is already member of room " + e.getRoom());
-        } catch (WalletNotFoundException e) {
+        } catch (AccountMembershipException e) {
             System.err.println(e);
         }
     }
@@ -73,11 +73,11 @@ public class Room {
      * @return Wallet of the account in this room.
      * @throws WalletNotFoundException Throws if wallet with specified owner was not found.
      */
-    public Wallet walletOf(Account owner) throws WalletNotFoundException {
+    Wallet walletOf(Account owner) throws AccountMembershipException {
         for (Wallet w: getWallets()) {
             if (w.getOwner() == owner)
                 return  w;
         }
-        throw new WalletNotFoundException(owner, this);
+        throw new AccountMembershipException(owner, this);
     }
 }
