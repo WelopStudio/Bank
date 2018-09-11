@@ -24,5 +24,10 @@ public class Test {
         roomManager.transfer(a4, a3, 150);
 
         roomManager.go(a1);
+        roomManager.payEach(a1, 1);
+        roomManager.payEach(a1, 1000);
+
+        roomManager.collectFromEveryone(a1, 1);
+        roomManager.collectFromEveryone(a1, 5000);
     }
 }

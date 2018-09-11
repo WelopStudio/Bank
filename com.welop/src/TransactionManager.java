@@ -95,4 +95,35 @@ public class TransactionManager {
     public void incomeTax(Account from) {
         withdraw(from, gameSettings.getIncomeTaxCost());
     }
+
+    public void payEach(Account from, int amount) {
+        try {
+            Wallet walletFrom =  room.walletOf(from);
+
+            if (walletFrom.getBalance() < amount * (room.getWallets().size() - 1))
+                throw new WithdrawException(walletFrom, amount * (room.getWallets().size() - 1) - walletFrom.getBalance());
+
+            for (Wallet to: room.getWallets()) {
+                if (walletFrom != to)
+                    transfer(walletFrom, to, amount);
+            }
+        } catch (AccountMembershipException | WithdrawException e) {
+            System.out.println("Exception: " + e);
+        }
+    }
+
+    public void collectFromEveryone(Account to, int amount) {
+        try {
+            Wallet walletTo = room.walletOf(to);
+            for (Wallet w : room.getWallets())
+                if (walletTo != w)
+                    if (w.getBalance() < amount)
+                        throw new WithdrawException(w, amount - w.getBalance());
+            for (Wallet w : room.getWallets())
+                if (walletTo != w)
+                    transfer(w, walletTo, amount);
+        } catch (WithdrawException | AccountMembershipException e) {
+            System.out.println("Exception: " + e);
+        }
+    }
 }
