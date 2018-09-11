@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 import java.util.HashMap;
 import java.util.Map;
 

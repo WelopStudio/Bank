@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 /**
  * Exception which is thrown when try to add player to a party he'd already joined.
  */

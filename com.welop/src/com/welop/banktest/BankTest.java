@@ -1,6 +1,13 @@
-public class Test {
+package com.welop.banktest;
+
+import com.welop.bank.Account;
+import com.welop.bank.GameSettings;
+import com.welop.bank.Room;
+import com.welop.bank.TransactionManager;
+
+public class BankTest {
     public static void main(String[] args) {
-        System.out.println("This is test startup class and getting started guide for Bank Library.");
+        System.out.println("This is banktest startup class and getting started guide for Bank Library.");
 
         Account a1 = new Account("Sergei", "sergei@gmail.com", "qwerty".hashCode());
         Account a2 = new Account("Yuri", "yuri@gmail.com", "abc123".hashCode());

@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 /**
  * Profile of an account for concrete room.
  */

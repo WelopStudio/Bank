@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 public class AccountMembershipException extends Throwable {
     private Account owner;
     private Room room;

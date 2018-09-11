@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 public class WalletNotFoundException extends Throwable {
     private Wallet wallet;
     private Room room;

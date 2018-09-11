@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 public class TransactionManager {
     private Room room;
     private GameSettings gameSettings;

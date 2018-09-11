@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 /**
  * Exception which is thrown when try to transfer more money than payer have.
  */

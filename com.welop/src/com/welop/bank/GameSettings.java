@@ -1,3 +1,5 @@
+package com.welop.bank;
+
 public class GameSettings {
     private static final int DEFAULT_LUXURY_TAX = 100;
     private static final int DEFAULT_INCOME_TAX = 200;
