@@ -7,6 +7,6 @@ public class Test {
         Account a3 = new Account("Anastacia", "anastacia@gmail.com", "asdfgh".hashCode());
         Account a4 = new Account("Christian", "gray@gmail.com", "dominity".hashCode());
 
-        Room room = a1.createRoom();
+        Room room = a1.createRoom("Cat");
     }
 }

@@ -95,10 +95,11 @@ public class Account {
 
     /**
      * Creates new room and sets its administrator equals to this account.
+     * @param name Administrator's wallet name.
      * @return New room reference.
      */
-    public Room createRoom() {
-        return new Room(this, new GameSettings());
+    public Room createRoom(String name) {
+        return new Room(this, name, new GameSettings());
     }
 
     @Override
