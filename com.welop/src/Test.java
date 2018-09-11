@@ -14,8 +14,13 @@ public class Test {
         room.addPlayer(a3, "Plane");
         room.addPlayer(a4, "Special Toy");
 
-        room.getTransactionManager().transfer(a1, a2, 500);
-        room.getTransactionManager().withdraw(a3, 300);
-        room.getTransactionManager().deposit(a4, 400);
+        TransactionManager roomManager = room.getTransactionManager();
+
+        roomManager.transfer(a1, a2, 500);
+        roomManager.withdraw(a3, 300);
+        roomManager.deposit(a4, 400);
+
+        roomManager.withdraw(a2, 2001);
+
     }
 }
