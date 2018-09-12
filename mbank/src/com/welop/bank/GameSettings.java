@@ -5,10 +5,20 @@ public class GameSettings {
     private static final int DEFAULT_INCOME_TAX = 200;
     private static final int DEFAULT_GO_COST = 200;
     private static final int DEFAULT_START_BALANCE = 1500;
+    private static final Boolean DEFAULT_SHOW_MONEY = true;
     private int goCost;
     private int luxuryTaxCost;
     private int incomeTaxCost;
     private int startBalance;
+    private Boolean showBalance;
+
+    public Boolean getShowBalance() {
+        return showBalance;
+    }
+
+    public void setShowBalance(Boolean showBalance) {
+        this.showBalance = showBalance;
+    }
 
     /**
      * Returns room's "GO" cost setting.
@@ -81,17 +91,18 @@ public class GameSettings {
      * @param incomeTaxCost Lobby's Income tax setting.
      * @param startBalance Lobby wallets start balance.
      */
-    public GameSettings(int goCost, int luxuryTaxCost, int incomeTaxCost, int startBalance) {
+    public GameSettings(int goCost, int luxuryTaxCost, int incomeTaxCost, int startBalance, Boolean showBalance) {
         this.goCost = goCost;
         this.luxuryTaxCost = luxuryTaxCost;
         this.incomeTaxCost = incomeTaxCost;
         this.startBalance = startBalance;
+        this.showBalance = showBalance;
     }
 
     /**
      * Default constructor.
      */
     public GameSettings() {
-        this(DEFAULT_GO_COST, DEFAULT_INCOME_TAX, DEFAULT_LUXURY_TAX, DEFAULT_START_BALANCE);
+        this(DEFAULT_GO_COST, DEFAULT_INCOME_TAX, DEFAULT_LUXURY_TAX, DEFAULT_START_BALANCE, DEFAULT_SHOW_MONEY);
     }
 }
