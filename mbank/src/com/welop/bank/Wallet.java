@@ -8,6 +8,15 @@ public class Wallet {
     private String name; // "Cat", "Hat", "Plane", etc.
     private Lobby lobby;
     private int balance;
+    private Boolean isOnline;
+
+    public Boolean getOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(Boolean online) {
+        isOnline = online;
+    }
 
     public Lobby getLobby() {
         return lobby;
@@ -47,6 +56,7 @@ public class Wallet {
         this.owner = account;
         this.name = name;
         this.lobby = lobby;
+        this.isOnline = false;
     }
 
     /**
