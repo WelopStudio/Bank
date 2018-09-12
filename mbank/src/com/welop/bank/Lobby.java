@@ -1,13 +1,14 @@
 package com.welop.bank;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Game room class. This is where several wallets do play Monopoly-like games but not Monopoly.
  */
 public class Lobby {
     private Account administrator;
-    private ArrayList<Wallet> wallets;
+    private HashMap<Account, Wallet> wallets;
     private final GameSettings gameSettings;
     private TransactionManager transactionManager;
     private Boolean isActive;
@@ -17,7 +18,7 @@ public class Lobby {
      * @return Whether lobby is active or not.
      */
     public Boolean getActive() {
-        for (Wallet w: getWallets()) {
+        for (Wallet w: getWallets().values()) {
             if (!w.getOnline())
                 return false;
         }
@@ -52,7 +53,7 @@ public class Lobby {
      * Returns all wallets of the room.
      * @return ArrayList of wallets involved to current room.
      */
-    ArrayList<Wallet> getWallets() {
+    HashMap<Account, Wallet> getWallets() {
         return wallets;
     }
 
@@ -61,9 +62,13 @@ public class Lobby {
      * @param player Account of a player to createWalletForRoom.
      * @param name Wallet name for this room.
      */
-    public void addAccount(Account player, String name) throws AlreadyJoinedException, AccountMembershipException {
-            wallets.add(player.createWalletForRoom(this, name));
-            walletOf(player).setBalance(gameSettings.getStartBalance());
+    public void addAccount(Account player, String name) throws AlreadyJoinedException {
+        if (getWallets().containsKey(player))
+            throw new AlreadyJoinedException(player, this);
+        Wallet wallet = new Wallet(player, this, name, "#CCCCCC");
+        player.getWallets().put(this, wallet);
+        getWallets().put(player, wallet);
+        wallet.setBalance(gameSettings.getStartBalance());
     }
 
     /**
@@ -82,7 +87,7 @@ public class Lobby {
      */
     Lobby(Account administrator, String name, GameSettings gameSettings) throws AccountMembershipException, AlreadyJoinedException {
         this.gameSettings = gameSettings;
-        wallets = new ArrayList<>();
+        wallets = new HashMap<Account, Wallet>();
         addAccount(administrator, name);
         setAdministrator(administrator);
         transactionManager = new TransactionManager(this);
@@ -95,42 +100,42 @@ public class Lobby {
      * @throws AccountMembershipException Throws if wallet with specified owner was not found.
      */
     Wallet walletOf(Account owner) throws AccountMembershipException {
-        for (Wallet w: getWallets()) {
+        for (Wallet w: getWallets().values()) {
             if (w.getOwner() == owner)
                 return  w;
         }
         throw new AccountMembershipException(owner, this);
     }
 
-    public void deposit(Account to, int amount) throws AccountMembershipException, LobbyInactiveException {
+    public void deposit(Account to, int amount) throws AccountMembershipException, LobbyInactiveException, NonpositiveAmountException {
         getTransactionManager().deposit(to, amount);
     }
 
-    public void withdraw(Account from, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void withdraw(Account from, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         getTransactionManager().withdraw(from, amount);
     }
 
-    public void transfer(Account from, Account to, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void transfer(Account from, Account to, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         getTransactionManager().transfer(from, to, amount);
     }
 
-    public void go(Account to) throws AccountMembershipException, LobbyInactiveException {
+    public void go(Account to) throws AccountMembershipException, LobbyInactiveException, NonpositiveAmountException {
         getTransactionManager().go(to);
     }
 
-    public void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         getTransactionManager().luxuryTax(from);
     }
 
-    public void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         getTransactionManager().incomeTax(from);
     }
 
-    public void payEach(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+    public void payEach(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
         getTransactionManager().payEach(from, amount);
     }
 
-    public void collectFromEveryone(Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+    public void collectFromEveryone(Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
         getTransactionManager().collectFromEveryone(to, amount);
     }
 }

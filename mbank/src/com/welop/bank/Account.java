@@ -73,21 +73,6 @@ public class Account {
         this.wallets = new HashMap<>();
     }
 
-
-    /**
-     * Called by Lobby.addAccount(Account). Creates wallet for participating caller-lobby and associates that wallet to the lobby.
-     * @param lobby Caller-lobby.
-     * @param name Wallet name for this lobby.
-     * @throws AlreadyJoinedException Throws if the account is already having lobby-wallet association for the caller-lobby.
-     */
-    Wallet createWalletForRoom(Lobby lobby, String name) throws AlreadyJoinedException {
-        if (wallets.containsKey(lobby))
-            throw new AlreadyJoinedException(this, lobby);
-        Wallet wallet = new Wallet(this, lobby, name, "#CCCCCC");
-        wallets.put(lobby, wallet);
-        return wallet;
-    }
-
     /**
      * Creates new room and sets its administrator equals to this account.
      * @param name Administrator's wallet name.
