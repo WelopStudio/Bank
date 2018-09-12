@@ -24,7 +24,7 @@ class TransactionManager {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
-            lobby.walletOf(from).transfer(lobby.walletOf(to), amount);
+            lobby.getWallets().get(from).transfer(lobby.getWallets().get(to), amount);
     }
 
     /**
