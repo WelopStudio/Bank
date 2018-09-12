@@ -20,7 +20,7 @@ public class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount Amount of money to be transferred.
      */
-    public void transfer(Account from, Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+    public void transfer(Account from, Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
@@ -32,7 +32,7 @@ public class TransactionManager {
      * @param from Payer Account instance.
      * @param amount Amount of money.
      */
-    public void withdraw(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+    public void withdraw(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
@@ -44,7 +44,7 @@ public class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount Amount of money.
      */
-    public void deposit(Account to, int amount) throws LobbyInactiveException, AccountMembershipException {
+    public void deposit(Account to, int amount) throws LobbyInactiveException, AccountMembershipException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
@@ -55,7 +55,7 @@ public class TransactionManager {
      * Deposits "GO" amount of money to the Wallet by Account.
      * @param to Receiver Account instance.
      */
-    public void go(Account to) throws AccountMembershipException, LobbyInactiveException {
+    public void go(Account to) throws AccountMembershipException, LobbyInactiveException, NonpositiveAmountException {
         deposit(to, lobby.getGameSettings().getGoCost());
     }
 
@@ -63,7 +63,7 @@ public class TransactionManager {
      * Withdraws LUXURY TAX amount of money from the Wallet by Account.
      * @param from Payer Account instance.
      */
-    public void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getLuxuryTaxCost());
     }
 
@@ -71,7 +71,7 @@ public class TransactionManager {
      * Withdraws INCOME TAX amount of money from the Wallet by Account.
      * @param from Payer Account instance.
      */
-    public void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+    public void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getIncomeTaxCost());
     }
 
@@ -80,7 +80,7 @@ public class TransactionManager {
      * @param from Payer Account instance.
      * @param amount An amount of money to be received by each other wallet.
      */
-    public void payEach(Account from, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException {
+    public void payEach(Account from, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException, NonpositiveAmountException {
             Wallet walletFrom = lobby.walletOf(from);
 
             if (walletFrom.getBalance() < amount * (lobby.getWallets().size() - 1))
@@ -97,7 +97,7 @@ public class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount An amount of money to be received by specified wallet.
      */
-    public void collectFromEveryone(Account to, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException {
+    public void collectFromEveryone(Account to, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException, NonpositiveAmountException {
             Wallet walletTo = lobby.walletOf(to);
             for (Wallet w : lobby.getWallets())
                 if (walletTo != w)
@@ -108,7 +108,7 @@ public class TransactionManager {
                     transfer(w, walletTo, amount);
     }
 
-    void transfer(Wallet from, Wallet to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+    void transfer(Wallet from, Wallet to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(from))
@@ -119,7 +119,7 @@ public class TransactionManager {
             from.transfer(to, amount);
     }
 
-    void withdraw(Wallet from, int amount) throws LobbyInactiveException, WalletNotFoundException, WithdrawException {
+    void withdraw(Wallet from, int amount) throws LobbyInactiveException, WalletNotFoundException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(from))
@@ -128,7 +128,7 @@ public class TransactionManager {
             from.withdraw(amount);
     }
 
-    void deposit(Wallet to, int amount) throws LobbyInactiveException, WalletNotFoundException {
+    void deposit(Wallet to, int amount) throws LobbyInactiveException, WalletNotFoundException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(to))
@@ -138,17 +138,17 @@ public class TransactionManager {
     }
 
     @Deprecated
-    void go(Wallet to) throws LobbyInactiveException, WalletNotFoundException {
+    void go(Wallet to) throws LobbyInactiveException, WalletNotFoundException, NonpositiveAmountException {
         deposit(to, lobby.getGameSettings().getGoCost());
     }
 
     @Deprecated
-    void luxuryTax(Wallet from) throws WithdrawException, LobbyInactiveException, WalletNotFoundException {
+    void luxuryTax(Wallet from) throws WithdrawException, LobbyInactiveException, WalletNotFoundException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getLuxuryTaxCost());
     }
 
     @Deprecated
-    void incomeTax(Wallet from) throws WithdrawException, LobbyInactiveException, WalletNotFoundException {
+    void incomeTax(Wallet from) throws WithdrawException, LobbyInactiveException, WalletNotFoundException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getIncomeTaxCost());
     }
 }

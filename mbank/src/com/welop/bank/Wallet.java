@@ -78,7 +78,7 @@ class Wallet {
      * @param amount Amount to be transferred.
      * @throws WithdrawException Throws when try to transfer more money than it is available.
      */
-    void transfer(Wallet to, int amount) throws WithdrawException {
+    void transfer(Wallet to, int amount) throws WithdrawException, NonpositiveAmountException {
         withdraw(amount);
         to.deposit(amount);
     }
@@ -88,7 +88,9 @@ class Wallet {
      * @param amount Amount to be withdrawn.
      * @throws WithdrawException Throws when try to transfer more money than it is available.
      */
-    void withdraw(int amount) throws WithdrawException {
+    void withdraw(int amount) throws WithdrawException, NonpositiveAmountException {
+        if (amount <= 0)
+            throw new NonpositiveAmountException(amount);
         if (amount > balance)
             throw new WithdrawException(this, amount - balance);
         balance -= amount;
@@ -98,7 +100,9 @@ class Wallet {
      * Deposits an amount of money to this wallet.
      * @param amount Amount to be added.
      */
-    void deposit(int amount) {
+    void deposit(int amount) throws NonpositiveAmountException {
+        if (amount <= 0)
+            throw new NonpositiveAmountException(amount);
         balance += amount;
     }
 
