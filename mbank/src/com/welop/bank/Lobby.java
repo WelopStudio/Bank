@@ -10,6 +10,15 @@ public class Lobby {
     private ArrayList<Wallet> wallets;
     private final GameSettings gameSettings;
     private TransactionManager transactionManager;
+    private Boolean isActive;
+
+    public Boolean getActive() {
+        for (Wallet w: getWallets()) {
+            if (!w.getOnline())
+                return false;
+        }
+        return true;
+    }
 
     /**
      * Returns current room administrator reference.
