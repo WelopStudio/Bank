@@ -10,7 +10,6 @@ public class Account {
     private String name;
     private String email;
     private int passwordHashcode;
-    private Boolean isOnline;
     private Map<Room, Wallet> wallets;
 
     /**
@@ -54,14 +53,6 @@ public class Account {
     }
 
     /**
-     * Checks whether account is online or not.
-     * @return Online status.
-     */
-    public Boolean getOnline() {
-        return isOnline;
-    }
-
-    /**
      * All rooms and appropriate wallets of the account.
      * @return Map of Rooms and Wallets.
      */
@@ -89,7 +80,7 @@ public class Account {
      * @param name Wallet name for this room.
      * @throws AlreadyJoinedException Throws if the account is already having room-wallet association for the caller-room.
      */
-    Wallet join(Room room, String name) throws AlreadyJoinedException {
+    Wallet createWalletForRoom(Room room, String name) throws AlreadyJoinedException {
         if (wallets.containsKey(room))
             throw new AlreadyJoinedException(this, room);
         Wallet wallet = new Wallet(this, room, name);
