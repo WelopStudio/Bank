@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Profile of an account for concrete lobby.
  */
-class Wallet {
+public class Wallet {
     private Account owner;
     private String name; // "Cat", "Hat", "Plane", etc.
     private Lobby lobby;
@@ -17,7 +17,7 @@ class Wallet {
         return color;
     }
 
-    public void setColor(String color) {
+    void setColor(String color) {
         this.color = color;
     }
 
@@ -25,7 +25,7 @@ class Wallet {
         return isOnline;
     }
 
-    public void setOnline(Boolean online) {
+    void setOnline(Boolean online) {
         isOnline = online;
     }
 
@@ -37,7 +37,7 @@ class Wallet {
      * Returns the wallet owner Account.
      * @return The wallet owner Account.
      */
-    public Account getOwner() {
+    Account getOwner() {
         return owner;
     }
 
@@ -49,7 +49,7 @@ class Wallet {
         return name;
     }
 
-    public int getBalance() {
+    int getBalance() {
         return balance;
     }
 
