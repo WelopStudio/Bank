@@ -98,7 +98,7 @@ public class Lobby {
      * Returns the wallet of stated account in the room.
      * @param owner Owner who's wallet is to be found.
      * @return Wallet of the account in this room.
-     * @throws WalletNotFoundException Throws if wallet with specified owner was not found.
+     * @throws AccountMembershipException Throws if wallet with specified owner was not found.
      */
     Wallet walletOf(Account owner) throws AccountMembershipException {
         for (Wallet w: getWallets()) {
