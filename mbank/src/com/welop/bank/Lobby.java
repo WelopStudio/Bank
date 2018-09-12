@@ -99,6 +99,7 @@ public class Lobby {
      * @return Wallet of the account in this room.
      * @throws AccountMembershipException Throws if wallet with specified owner was not found.
      */
+    @Deprecated
     Wallet walletOf(Account owner) throws AccountMembershipException {
         for (Wallet w: getWallets().values()) {
             if (w.getOwner() == owner)
