@@ -1,12 +1,9 @@
 package com.welop.banktest;
 
-import com.welop.bank.Account;
-import com.welop.bank.GameSettings;
-import com.welop.bank.Lobby;
-import com.welop.bank.TransactionManager;
+import com.welop.bank.*;
 
 public class BankTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LobbyInactiveException, WithdrawException, AccountMembershipException, AlreadyJoinedException {
         System.out.println("This is bank test startup class and getting started guide for Bank Library.");
 
         Account a1 = new Account("Sergei", "sergei@gmail.com", "qwerty".hashCode());
@@ -26,15 +23,17 @@ public class BankTest {
         lobbyManager.transfer(a1, a2, 500);
         lobbyManager.withdraw(a3, 300);
         lobbyManager.deposit(a4, 400);
-        lobbyManager.withdraw(a2, 2001);
+        lobbyManager.withdraw(a2, 3);
 
         lobbyManager.transfer(a4, a3, 150);
 
         lobbyManager.go(a1);
         lobbyManager.payEach(a1, 1);
-        lobbyManager.payEach(a1, 1000);
+        lobbyManager.payEach(a1, 50);
 
         lobbyManager.collectFromEveryone(a1, 1);
-        lobbyManager.collectFromEveryone(a1, 5000);
+        lobbyManager.collectFromEveryone(a1, 60);
+
+
     }
 }

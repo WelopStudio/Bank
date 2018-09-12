@@ -83,7 +83,7 @@ public class Account {
     Wallet createWalletForRoom(Lobby lobby, String name) throws AlreadyJoinedException {
         if (wallets.containsKey(lobby))
             throw new AlreadyJoinedException(this, lobby);
-        Wallet wallet = new Wallet(this, lobby, name);
+        Wallet wallet = new Wallet(this, lobby, name, "#CCCCCC");
         wallets.put(lobby, wallet);
         return wallet;
     }
@@ -93,7 +93,7 @@ public class Account {
      * @param name Administrator's wallet name.
      * @return New room reference.
      */
-    public Lobby createRoom(String name, GameSettings gameSettings) {
+    public Lobby createRoom(String name, GameSettings gameSettings) throws AccountMembershipException, AlreadyJoinedException {
         return new Lobby(this, name, gameSettings);
     }
 

@@ -61,15 +61,9 @@ public class Lobby {
      * @param player Account of a player to createWalletForRoom.
      * @param name Wallet name for this room.
      */
-    public void addAccount(Account player, String name) {
-        try {
+    public void addAccount(Account player, String name) throws AlreadyJoinedException, AccountMembershipException {
             wallets.add(player.createWalletForRoom(this, name));
             walletOf(player).setBalance(gameSettings.getStartBalance());
-        } catch (AlreadyJoinedException e) {
-            System.err.println(e.getAccount() + " is already member of room " + e.getLobby());
-        } catch (AccountMembershipException e) {
-            System.err.println(e);
-        }
     }
 
     /**
@@ -86,7 +80,7 @@ public class Lobby {
      * @param name Administrator's wallet name.
      * @param gameSettings GameSettings instance to declare room's rules.
      */
-    Lobby(Account administrator, String name, GameSettings gameSettings) {
+    Lobby(Account administrator, String name, GameSettings gameSettings) throws AccountMembershipException, AlreadyJoinedException {
         this.gameSettings = gameSettings;
         wallets = new ArrayList<>();
         addAccount(administrator, name);

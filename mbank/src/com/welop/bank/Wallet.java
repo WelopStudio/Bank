@@ -1,14 +1,25 @@
 package com.welop.bank;
 
+import java.awt.*;
+
 /**
  * Profile of an account for concrete lobby.
  */
-public class Wallet {
+class Wallet {
     private Account owner;
     private String name; // "Cat", "Hat", "Plane", etc.
     private Lobby lobby;
     private int balance;
     private Boolean isOnline;
+    private String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public Boolean getOnline() {
         return isOnline;
@@ -51,12 +62,14 @@ public class Wallet {
      * @param account Account owner.
      * @param lobby The lobby which is this wallet a member of.
      * @param name The name of this wallet ("Cat", "Hat", "Plane", etc.).
+     * @param color Wallet color.
      */
-    Wallet(Account account, Lobby lobby, String name) {
+    Wallet(Account account, Lobby lobby, String name, String color) {
         this.owner = account;
         this.name = name;
         this.lobby = lobby;
-        this.isOnline = false;
+        this.isOnline = true;
+        this.color = color;
     }
 
     /**
