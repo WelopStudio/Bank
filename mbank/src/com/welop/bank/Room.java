@@ -27,6 +27,15 @@ public class Room {
         this.administrator = administrator;
     }
 
+
+    /**
+     * Returns game settings connected to this room.
+     * @return Game settings connected to this room.
+     */
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
+
     /**
      * Returns all wallets of the room.
      * @return ArrayList of wallets involved to current room.
@@ -37,12 +46,12 @@ public class Room {
 
     /**
      * Adds new account to the room. If successful, also creates room wallet for account.
-     * @param player Account of a player to join.
+     * @param player Account of a player to createWalletForRoom.
      * @param name Wallet name for this room.
      */
     public void addPlayer(Account player, String name) {
         try {
-            wallets.add(player.join(this, name));
+            wallets.add(player.createWalletForRoom(this, name));
             walletOf(player).setBalance(gameSettings.getStartBalance());
         } catch (AlreadyJoinedException e) {
             System.err.println(e.getAccount() + " is already member of room " + e.getRoom());
@@ -66,7 +75,7 @@ public class Room {
         wallets = new ArrayList<>();
         addPlayer(administrator, name);
         setAdministrator(administrator);
-        transactionManager = new TransactionManager(this, gameSettings);
+        transactionManager = new TransactionManager(this);
     }
 
     /**
