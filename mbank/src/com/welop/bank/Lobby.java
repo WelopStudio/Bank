@@ -12,6 +12,10 @@ public class Lobby {
     private TransactionManager transactionManager;
     private Boolean isActive;
 
+    /**
+     * Returns whether lobby is active or not.
+     * @return Whether lobby is active or not.
+     */
     public Boolean getActive() {
         for (Wallet w: getWallets()) {
             if (!w.getOnline())
@@ -32,7 +36,7 @@ public class Lobby {
      * Sets new administrator.
      * @param administrator New administrator.
      */
-    public void setAdministrator(Account administrator) {
+    private void setAdministrator(Account administrator) {
         this.administrator = administrator;
     }
 
@@ -48,7 +52,7 @@ public class Lobby {
      * Returns all wallets of the room.
      * @return ArrayList of wallets involved to current room.
      */
-    public ArrayList<Wallet> getWallets() {
+    ArrayList<Wallet> getWallets() {
         return wallets;
     }
 
@@ -68,6 +72,10 @@ public class Lobby {
         }
     }
 
+    /**
+     * Returns lobby transaction manager.
+     * @return Lobby transaction manager.
+     */
     public TransactionManager getTransactionManager() {
         return transactionManager;
     }
