@@ -22,9 +22,12 @@ public class TransactionManager {
      */
     public void transfer(Account from, Account to, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
+
             lobby.walletOf(from).transfer(lobby.walletOf(to), amount);
             System.out.println("Transaction ($" + amount + ") from " + lobby.walletOf(from) + " to " + lobby.walletOf(to) + " successful.");
-        } catch (WithdrawException | AccountMembershipException e) {
+        } catch (WithdrawException | AccountMembershipException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
@@ -36,9 +39,12 @@ public class TransactionManager {
      */
     public void withdraw(Account from, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
+
             lobby.walletOf(from).withdraw(amount);
             System.out.println("Withdrawal ($" + amount + ") from " + lobby.walletOf(from) + " successful.");
-        } catch (WithdrawException | AccountMembershipException e) {
+        } catch (WithdrawException | AccountMembershipException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
@@ -50,9 +56,12 @@ public class TransactionManager {
      */
     public void deposit(Account to, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
+
             lobby.walletOf(to).deposit(amount);
             System.out.println("Deposit ($" + amount + ") to " + lobby.walletOf(to) + " successful.");
-        } catch (AccountMembershipException e) {
+        } catch (AccountMembershipException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
@@ -124,6 +133,8 @@ public class TransactionManager {
 
     void transfer(Wallet from, Wallet to, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(from))
                 throw new AccountMembershipException(from.getOwner(), lobby);
             if (!lobby.getWallets().contains(to))
@@ -131,31 +142,35 @@ public class TransactionManager {
 
             from.transfer(to, amount);
             System.out.println("Transaction ($" + amount + ") from " + from + " to " + to + " successful.");
-        } catch (WithdrawException | AccountMembershipException e) {
+        } catch (WithdrawException | AccountMembershipException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
 
     void withdraw(Wallet from, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(from))
                 throw new WalletNotFoundException(from, lobby);
 
             from.withdraw(amount);
             System.out.println("Withdrawal ($" + amount + ") from " + from + " successful.");
-        } catch (WithdrawException | WalletNotFoundException e) {
+        } catch (WithdrawException | WalletNotFoundException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
 
     void deposit(Wallet to, int amount) {
         try {
+            if (!lobby.getActive())
+                throw new LobbyInactiveException(lobby);
             if (!lobby.getWallets().contains(to))
                 throw new WalletNotFoundException(to, lobby);
 
             to.deposit(amount);
             System.out.println("Deposit ($" + amount + ") to " + to + " successful.");
-        } catch (WalletNotFoundException e) {
+        } catch (WalletNotFoundException | LobbyInactiveException e) {
             System.out.println("Exception: " + e);
         }
     }
