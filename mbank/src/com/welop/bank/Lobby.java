@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Game room class. This is where several wallets do play Monopoly-like games but not Monopoly.
  */
-public class Room {
+public class Lobby {
     private Account administrator;
     private ArrayList<Wallet> wallets;
     private final GameSettings gameSettings;
@@ -26,7 +26,6 @@ public class Room {
     public void setAdministrator(Account administrator) {
         this.administrator = administrator;
     }
-
 
     /**
      * Returns game settings connected to this room.
@@ -49,12 +48,12 @@ public class Room {
      * @param player Account of a player to createWalletForRoom.
      * @param name Wallet name for this room.
      */
-    public void addPlayer(Account player, String name) {
+    public void addAccount(Account player, String name) {
         try {
             wallets.add(player.createWalletForRoom(this, name));
             walletOf(player).setBalance(gameSettings.getStartBalance());
         } catch (AlreadyJoinedException e) {
-            System.err.println(e.getAccount() + " is already member of room " + e.getRoom());
+            System.err.println(e.getAccount() + " is already member of room " + e.getLobby());
         } catch (AccountMembershipException e) {
             System.err.println(e);
         }
@@ -65,15 +64,15 @@ public class Room {
     }
 
     /**
-     * Package-private constructor. Room can be created only by an Account instance in order to have administrator properly.
+     * Package-private constructor. Lobby can be created only by an Account instance in order to have administrator properly.
      * @param administrator Creator of the room.
      * @param name Administrator's wallet name.
      * @param gameSettings GameSettings instance to declare room's rules.
      */
-    Room(Account administrator, String name, GameSettings gameSettings) {
+    Lobby(Account administrator, String name, GameSettings gameSettings) {
         this.gameSettings = gameSettings;
         wallets = new ArrayList<>();
-        addPlayer(administrator, name);
+        addAccount(administrator, name);
         setAdministrator(administrator);
         transactionManager = new TransactionManager(this);
     }

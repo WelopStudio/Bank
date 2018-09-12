@@ -1,16 +1,16 @@
 package com.welop.bank;
 
 /**
- * Profile of an account for concrete room.
+ * Profile of an account for concrete lobby.
  */
 public class Wallet {
     private Account owner;
     private String name; // "Cat", "Hat", "Plane", etc.
-    private Room room;
+    private Lobby lobby;
     private int balance;
 
-    public Room getRoom() {
-        return room;
+    public Lobby getLobby() {
+        return lobby;
     }
 
     /**
@@ -40,13 +40,13 @@ public class Wallet {
     /**
      * Public constructor.
      * @param account Account owner.
-     * @param room The room which is this wallet a member of.
+     * @param lobby The lobby which is this wallet a member of.
      * @param name The name of this wallet ("Cat", "Hat", "Plane", etc.).
      */
-    Wallet(Account account, Room room, String name) {
+    Wallet(Account account, Lobby lobby, String name) {
         this.owner = account;
         this.name = name;
-        this.room = room;
+        this.lobby = lobby;
     }
 
     /**

@@ -10,7 +10,7 @@ public class Account {
     private String name;
     private String email;
     private int passwordHashcode;
-    private Map<Room, Wallet> wallets;
+    private Map<Lobby, Wallet> wallets;
 
     /**
      * Returns account's name.
@@ -56,7 +56,7 @@ public class Account {
      * All rooms and appropriate wallets of the account.
      * @return Map of Rooms and Wallets.
      */
-    public Map<Room, Wallet> getWallets() {
+    public Map<Lobby, Wallet> getWallets() {
         return wallets;
     }
 
@@ -75,16 +75,16 @@ public class Account {
 
 
     /**
-     * Called by Room.addPlayer(Account). Creates wallet for participating caller-room and associates that wallet to the room.
-     * @param room Caller-room.
-     * @param name Wallet name for this room.
-     * @throws AlreadyJoinedException Throws if the account is already having room-wallet association for the caller-room.
+     * Called by Lobby.addAccount(Account). Creates wallet for participating caller-lobby and associates that wallet to the lobby.
+     * @param lobby Caller-lobby.
+     * @param name Wallet name for this lobby.
+     * @throws AlreadyJoinedException Throws if the account is already having lobby-wallet association for the caller-lobby.
      */
-    Wallet createWalletForRoom(Room room, String name) throws AlreadyJoinedException {
-        if (wallets.containsKey(room))
-            throw new AlreadyJoinedException(this, room);
-        Wallet wallet = new Wallet(this, room, name);
-        wallets.put(room, wallet);
+    Wallet createWalletForRoom(Lobby lobby, String name) throws AlreadyJoinedException {
+        if (wallets.containsKey(lobby))
+            throw new AlreadyJoinedException(this, lobby);
+        Wallet wallet = new Wallet(this, lobby, name);
+        wallets.put(lobby, wallet);
         return wallet;
     }
 
@@ -93,8 +93,8 @@ public class Account {
      * @param name Administrator's wallet name.
      * @return New room reference.
      */
-    public Room createRoom(String name, GameSettings gameSettings) {
-        return new Room(this, name, gameSettings);
+    public Lobby createRoom(String name, GameSettings gameSettings) {
+        return new Lobby(this, name, gameSettings);
     }
 
     @Override

@@ -5,31 +5,31 @@ package com.welop.bank;
  */
 public class AlreadyJoinedException extends Throwable {
     private Account account;
-    private Room room;
+    private Lobby lobby;
 
     /**
      * Returns an account caused exception.
-     * @return An account which is already member of the room.
+     * @return An account which is already member of the lobby.
      */
     public Account getAccount() {
         return account;
     }
 
     /**
-     * The room that already contains reference to the account.
-     * @return Room.
+     * The lobby that already contains reference to the account.
+     * @return Lobby.
      */
-    public Room getRoom() {
-        return room;
+    public Lobby getLobby() {
+        return lobby;
     }
 
     /**
      * Exception constructor.
-     * @param account The account which is already member of the room.
-     * @param room The room with the joined account.
+     * @param account The account which is already member of the lobby.
+     * @param lobby The lobby with the joined account.
      */
-    public AlreadyJoinedException(Account account, Room room) {
+    public AlreadyJoinedException(Account account, Lobby lobby) {
         this.account = account;
-        this.room = room;
+        this.lobby = lobby;
     }
 }

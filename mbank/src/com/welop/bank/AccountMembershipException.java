@@ -2,23 +2,23 @@ package com.welop.bank;
 
 public class AccountMembershipException extends Throwable {
     private Account owner;
-    private Room room;
+    private Lobby lobby;
 
     public Account getOwner() {
         return owner;
     }
 
-    public Room getRoom() {
-        return room;
+    public Lobby getLobby() {
+        return lobby;
     }
 
-    public AccountMembershipException(Account owner, Room room) {
-        this.room = room;
+    public AccountMembershipException(Account owner, Lobby lobby) {
+        this.lobby = lobby;
         this.owner = owner;
     }
 
     @Override
     public String toString() {
-        return "Account " + owner + " has no wallet in room " + room;
+        return "Account " + owner + " has no wallet in lobby " + lobby;
     }
 }

@@ -1,17 +1,17 @@
 package com.welop.bank;
 
 /**
- * Transaction Manager is a Room component that provides account instances usage (instead of wallets) to transfer money inside room.
+ * Transaction Manager is a Lobby component that provides account instances usage (instead of wallets) to transfer money inside lobby.
  */
 public class TransactionManager {
-    private Room room;
+    private Lobby lobby;
 
     /**
-     * Package-private constructor. Called by Room constructor.
-     * @param room Connected room.
+     * Package-private constructor. Called by Lobby constructor.
+     * @param lobby Connected lobby.
      */
-    TransactionManager(Room room) {
-        this.room = room;
+    TransactionManager(Lobby lobby) {
+        this.lobby = lobby;
     }
 
     /**
@@ -22,8 +22,8 @@ public class TransactionManager {
      */
     public void transfer(Account from, Account to, int amount) {
         try {
-            room.walletOf(from).transfer(room.walletOf(to), amount);
-            System.out.println("Transaction ($" + amount + ") from " + room.walletOf(from) + " to " + room.walletOf(to) + " successful.");
+            lobby.walletOf(from).transfer(lobby.walletOf(to), amount);
+            System.out.println("Transaction ($" + amount + ") from " + lobby.walletOf(from) + " to " + lobby.walletOf(to) + " successful.");
         } catch (WithdrawException | AccountMembershipException e) {
             System.out.println("Exception: " + e);
         }
@@ -36,8 +36,8 @@ public class TransactionManager {
      */
     public void withdraw(Account from, int amount) {
         try {
-            room.walletOf(from).withdraw(amount);
-            System.out.println("Withdrawal ($" + amount + ") from " + room.walletOf(from) + " successful.");
+            lobby.walletOf(from).withdraw(amount);
+            System.out.println("Withdrawal ($" + amount + ") from " + lobby.walletOf(from) + " successful.");
         } catch (WithdrawException | AccountMembershipException e) {
             System.out.println("Exception: " + e);
         }
@@ -50,8 +50,8 @@ public class TransactionManager {
      */
     public void deposit(Account to, int amount) {
         try {
-            room.walletOf(to).deposit(amount);
-            System.out.println("Deposit ($" + amount + ") to " + room.walletOf(to) + " successful.");
+            lobby.walletOf(to).deposit(amount);
+            System.out.println("Deposit ($" + amount + ") to " + lobby.walletOf(to) + " successful.");
         } catch (AccountMembershipException e) {
             System.out.println("Exception: " + e);
         }
@@ -62,7 +62,7 @@ public class TransactionManager {
      * @param to Receiver Account instance.
      */
     public void go(Account to) {
-        deposit(to, room.getGameSettings().getGoCost());
+        deposit(to, lobby.getGameSettings().getGoCost());
     }
 
     /**
@@ -70,7 +70,7 @@ public class TransactionManager {
      * @param from Payer Account instance.
      */
     public void luxuryTax(Account from) {
-        withdraw(from, room.getGameSettings().getLuxuryTaxCost());
+        withdraw(from, lobby.getGameSettings().getLuxuryTaxCost());
     }
 
     /**
@@ -78,7 +78,7 @@ public class TransactionManager {
      * @param from Payer Account instance.
      */
     public void incomeTax(Account from) {
-        withdraw(from, room.getGameSettings().getIncomeTaxCost());
+        withdraw(from, lobby.getGameSettings().getIncomeTaxCost());
     }
 
     /**
@@ -88,12 +88,12 @@ public class TransactionManager {
      */
     public void payEach(Account from, int amount) {
         try {
-            Wallet walletFrom = room.walletOf(from);
+            Wallet walletFrom = lobby.walletOf(from);
 
-            if (walletFrom.getBalance() < amount * (room.getWallets().size() - 1))
-                throw new WithdrawException(walletFrom, amount * (room.getWallets().size() - 1) - walletFrom.getBalance());
+            if (walletFrom.getBalance() < amount * (lobby.getWallets().size() - 1))
+                throw new WithdrawException(walletFrom, amount * (lobby.getWallets().size() - 1) - walletFrom.getBalance());
 
-            for (Wallet to : room.getWallets()) {
+            for (Wallet to : lobby.getWallets()) {
                 if (walletFrom != to)
                     transfer(walletFrom, to, amount);
             }
@@ -109,12 +109,12 @@ public class TransactionManager {
      */
     public void collectFromEveryone(Account to, int amount) {
         try {
-            Wallet walletTo = room.walletOf(to);
-            for (Wallet w : room.getWallets())
+            Wallet walletTo = lobby.walletOf(to);
+            for (Wallet w : lobby.getWallets())
                 if (walletTo != w)
                     if (w.getBalance() < amount)
                         throw new WithdrawException(w, amount - w.getBalance());
-            for (Wallet w : room.getWallets())
+            for (Wallet w : lobby.getWallets())
                 if (walletTo != w)
                     transfer(w, walletTo, amount);
         } catch (WithdrawException | AccountMembershipException e) {
@@ -124,10 +124,10 @@ public class TransactionManager {
 
     void transfer(Wallet from, Wallet to, int amount) {
         try {
-            if (!room.getWallets().contains(from))
-                throw new AccountMembershipException(from.getOwner(), room);
-            if (!room.getWallets().contains(to))
-                throw new AccountMembershipException(to.getOwner(), room);
+            if (!lobby.getWallets().contains(from))
+                throw new AccountMembershipException(from.getOwner(), lobby);
+            if (!lobby.getWallets().contains(to))
+                throw new AccountMembershipException(to.getOwner(), lobby);
 
             from.transfer(to, amount);
             System.out.println("Transaction ($" + amount + ") from " + from + " to " + to + " successful.");
@@ -138,8 +138,8 @@ public class TransactionManager {
 
     void withdraw(Wallet from, int amount) {
         try {
-            if (!room.getWallets().contains(from))
-                throw new WalletNotFoundException(from, room);
+            if (!lobby.getWallets().contains(from))
+                throw new WalletNotFoundException(from, lobby);
 
             from.withdraw(amount);
             System.out.println("Withdrawal ($" + amount + ") from " + from + " successful.");
@@ -150,8 +150,8 @@ public class TransactionManager {
 
     void deposit(Wallet to, int amount) {
         try {
-            if (!room.getWallets().contains(to))
-                throw new WalletNotFoundException(to, room);
+            if (!lobby.getWallets().contains(to))
+                throw new WalletNotFoundException(to, lobby);
 
             to.deposit(amount);
             System.out.println("Deposit ($" + amount + ") to " + to + " successful.");
@@ -162,16 +162,16 @@ public class TransactionManager {
 
     @Deprecated
     void go(Wallet to) {
-        deposit(to, room.getGameSettings().getGoCost());
+        deposit(to, lobby.getGameSettings().getGoCost());
     }
 
     @Deprecated
     void luxuryTax(Wallet from) {
-        withdraw(from, room.getGameSettings().getLuxuryTaxCost());
+        withdraw(from, lobby.getGameSettings().getLuxuryTaxCost());
     }
 
     @Deprecated
     void incomeTax(Wallet from) {
-        withdraw(from, room.getGameSettings().getIncomeTaxCost());
+        withdraw(from, lobby.getGameSettings().getIncomeTaxCost());
     }
 }
