@@ -101,4 +101,36 @@ public class Lobby {
         }
         throw new AccountMembershipException(owner, this);
     }
+
+    public void deposit(Account to, int amount) throws AccountMembershipException, LobbyInactiveException {
+        getTransactionManager().deposit(to, amount);
+    }
+
+    public void withdraw(Account from, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+        getTransactionManager().withdraw(from, amount);
+    }
+
+    public void transfer(Account from, Account to, int amount) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+        getTransactionManager().transfer(from, to, amount);
+    }
+
+    public void go(Account to) throws AccountMembershipException, LobbyInactiveException {
+        getTransactionManager().go(to);
+    }
+
+    public void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+        getTransactionManager().luxuryTax(from);
+    }
+
+    public void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException {
+        getTransactionManager().incomeTax(from);
+    }
+
+    public void payEach(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+        getTransactionManager().payEach(from, amount);
+    }
+
+    public void collectFromEveryone(Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException {
+        getTransactionManager().collectFromEveryone(to, amount);
+    }
 }

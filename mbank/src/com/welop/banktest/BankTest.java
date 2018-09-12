@@ -18,21 +18,20 @@ public class BankTest {
         lobby.addAccount(a3, "Plane");
         lobby.addAccount(a4, "Special Toy");
 
-        TransactionManager lobbyManager = lobby.getTransactionManager();
 
-        lobbyManager.transfer(a1, a2, 500);
-        lobbyManager.withdraw(a3, 300);
-        lobbyManager.deposit(a4, 400);
-        lobbyManager.withdraw(a2, 3);
+        lobby.transfer(a1, a2, 500);
+        lobby.withdraw(a3, 300);
+        lobby.deposit(a4, 400);
+        lobby.withdraw(a2, 3);
 
-        lobbyManager.transfer(a4, a3, 150);
+        lobby.transfer(a4, a3, 150);
 
-        lobbyManager.go(a1);
-        lobbyManager.payEach(a1, 1);
-        lobbyManager.payEach(a1, 50);
+        lobby.go(a1);
+        lobby.payEach(a1, 1);
+        lobby.payEach(a1, 50);
 
-        lobbyManager.collectFromEveryone(a1, 1);
-        lobbyManager.collectFromEveryone(a1, 60);
+        lobby.collectFromEveryone(a1, 1);
+        lobby.collectFromEveryone(a1, 60);
 
 
     }
