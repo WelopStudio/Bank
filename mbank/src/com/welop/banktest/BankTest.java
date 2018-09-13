@@ -29,6 +29,7 @@ public class BankTest {
         lobby.go(a1);
         lobby.payEach(a1, 1);
         lobby.payEach(a1, 50);
+        //ffff
 
         lobby.collectFromEveryone(a1, 1);
         lobby.collectFromEveryone(a1, 60);
