@@ -22,7 +22,7 @@ public class Account {
 
     /**
      * Sets account's name.
-     * @param name
+     * @param name New account's name.
      */
     public void setName(String name) {
         this.name = name;
@@ -78,7 +78,7 @@ public class Account {
      * @param name Administrator's wallet name.
      * @return New room reference.
      */
-    public Lobby createRoom(String name, GameSettings gameSettings) throws AccountMembershipException, AlreadyJoinedException {
+    public Lobby createRoom(String name, GameSettings gameSettings) throws AlreadyJoinedException {
         return new Lobby(this, name, gameSettings);
     }
 

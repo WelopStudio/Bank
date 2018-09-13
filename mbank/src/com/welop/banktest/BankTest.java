@@ -3,7 +3,7 @@ package com.welop.banktest;
 import com.welop.bank.*;
 
 public class BankTest {
-    public static void main(String[] args) throws LobbyInactiveException, WithdrawException, AccountMembershipException, AlreadyJoinedException, NonpositiveAmountException {
+    public static void main(String[] args) throws LobbyInactiveException, WithdrawException, AlreadyJoinedException, NonpositiveAmountException {
         System.out.println("This is bank test startup class and getting started guide for Bank Library.");
 
         Account a1 = new Account("Sergei", "sergei@gmail.com", "qwerty".hashCode());
