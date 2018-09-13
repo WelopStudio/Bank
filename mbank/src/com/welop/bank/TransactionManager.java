@@ -20,7 +20,7 @@ class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount Amount of money to be transferred.
      */
-    void transfer(Account from, Account to, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
+    void transfer(Account from, Account to, int amount) throws LobbyInactiveException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
@@ -32,11 +32,11 @@ class TransactionManager {
      * @param from Payer Account instance.
      * @param amount Amount of money.
      */
-    void withdraw(Account from, int amount) throws LobbyInactiveException, AccountMembershipException, WithdrawException, NonpositiveAmountException {
+    void withdraw(Account from, int amount) throws LobbyInactiveException, WithdrawException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
-            lobby.walletOf(from).withdraw(amount);
+            lobby.getWallets().get(from).withdraw(amount);
     }
 
     /**
@@ -44,18 +44,18 @@ class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount Amount of money.
      */
-    void deposit(Account to, int amount) throws LobbyInactiveException, AccountMembershipException, NonpositiveAmountException {
+    void deposit(Account to, int amount) throws LobbyInactiveException, NonpositiveAmountException {
             if (!lobby.getActive())
                 throw new LobbyInactiveException(lobby);
 
-            lobby.walletOf(to).deposit(amount);
+            lobby.getWallets().get(to).deposit(amount);
     }
 
     /**
      * Deposits "GO" amount of money to the Wallet by Account.
      * @param to Receiver Account instance.
      */
-    void go(Account to) throws AccountMembershipException, LobbyInactiveException, NonpositiveAmountException {
+    void go(Account to) throws LobbyInactiveException, NonpositiveAmountException {
         deposit(to, lobby.getGameSettings().getGoCost());
     }
 
@@ -63,7 +63,7 @@ class TransactionManager {
      * Withdraws LUXURY TAX amount of money from the Wallet by Account.
      * @param from Payer Account instance.
      */
-    void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
+    void luxuryTax(Account from) throws LobbyInactiveException, WithdrawException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getLuxuryTaxCost());
     }
 
@@ -71,7 +71,7 @@ class TransactionManager {
      * Withdraws INCOME TAX amount of money from the Wallet by Account.
      * @param from Payer Account instance.
      */
-    void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, AccountMembershipException, NonpositiveAmountException {
+    void incomeTax(Account from) throws LobbyInactiveException, WithdrawException, NonpositiveAmountException {
         withdraw(from, lobby.getGameSettings().getIncomeTaxCost());
     }
 
@@ -80,8 +80,8 @@ class TransactionManager {
      * @param from Payer Account instance.
      * @param amount An amount of money to be received by each other wallet.
      */
-    void payEach(Account from, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException, NonpositiveAmountException {
-            Wallet walletFrom = lobby.walletOf(from);
+    void payEach(Account from, int amount) throws WithdrawException, LobbyInactiveException, NonpositiveAmountException {
+            Wallet walletFrom = lobby.getWallets().get(from);
 
             if (walletFrom.getBalance() < amount * (lobby.getWallets().size() - 1))
                 throw new WithdrawException(walletFrom, amount * (lobby.getWallets().size() - 1) - walletFrom.getBalance());
@@ -97,8 +97,8 @@ class TransactionManager {
      * @param to Receiver Account instance.
      * @param amount An amount of money to be received by specified wallet.
      */
-    void collectFromEveryone(Account to, int amount) throws AccountMembershipException, WithdrawException, LobbyInactiveException, NonpositiveAmountException {
-            Wallet walletTo = lobby.walletOf(to);
+    void collectFromEveryone(Account to, int amount) throws WithdrawException, LobbyInactiveException, NonpositiveAmountException {
+            Wallet walletTo = lobby.getWallets().get(to);
             for (Wallet w : lobby.getWallets().values())
                 if (walletTo != w)
                     if (w.getBalance() < amount)

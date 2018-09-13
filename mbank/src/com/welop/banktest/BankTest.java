@@ -33,6 +33,6 @@ public class BankTest {
         lobby.collectFromEveryone(a1, 1);
         lobby.collectFromEveryone(a1, 60);
 
-
+        System.out.println("Works fine!");
     }
 }

@@ -8,29 +8,34 @@ import java.awt.*;
 public class Wallet {
     private Account owner;
     private String name; // "Cat", "Hat", "Plane", etc.
-    private Lobby lobby;
     private int balance;
     private Boolean isOnline;
     private String color;
 
+    /**
+     * Returns wallet color.
+     * @return Wallet color.
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * Sets wallet color.
+     * @param color New wallet color.
+     */
     void setColor(String color) {
         this.color = color;
     }
 
+    @Deprecated
     public Boolean getOnline() {
         return isOnline;
     }
 
+    @Deprecated
     void setOnline(Boolean online) {
         isOnline = online;
-    }
-
-    public Lobby getLobby() {
-        return lobby;
     }
 
     /**
@@ -49,10 +54,18 @@ public class Wallet {
         return name;
     }
 
+    /**
+     * Returns balance at moment.
+     * @return Balance.
+     */
     int getBalance() {
         return balance;
     }
 
+    /**
+     * Sets new balance. Used to setup Wallet.
+     * @param balance New balance value.
+     */
     void setBalance(int balance) {
         this.balance = balance;
     }
@@ -60,14 +73,12 @@ public class Wallet {
     /**
      * Public constructor.
      * @param account Account owner.
-     * @param lobby The lobby which is this wallet a member of.
      * @param name The name of this wallet ("Cat", "Hat", "Plane", etc.).
      * @param color Wallet color.
      */
-    Wallet(Account account, Lobby lobby, String name, String color) {
+    Wallet(Account account, String name, String color) {
         this.owner = account;
         this.name = name;
-        this.lobby = lobby;
         this.isOnline = true;
         this.color = color;
     }
