@@ -33,6 +33,11 @@ public class BankTest {
         lobby.collectFromEveryone(a1, 1);
         lobby.collectFromEveryone(a1, 60);
 
+        System.out.println(lobby.getWallets().get(a1));
+        System.out.println(lobby.getWallets().get(a2));
+        System.out.println(lobby.getWallets().get(a3));
+        System.out.println(lobby.getWallets().get(a4));
+
         System.out.println("Works fine!");
     }
 }
