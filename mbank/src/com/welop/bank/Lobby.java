@@ -53,7 +53,7 @@ public class Lobby {
      * Returns all wallets of the room.
      * @return ArrayList of wallets involved to current room.
      */
-    HashMap<Account, Wallet> getWallets() {
+    public HashMap<Account, Wallet> getWallets() {
         return wallets;
     }
 

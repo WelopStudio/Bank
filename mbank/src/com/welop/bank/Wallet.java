@@ -123,6 +123,6 @@ public class Wallet {
      */
     @Override
     public String toString() {
-        return owner + " the " + name;
+        return owner + " (" + name + "): $" + getBalance();
     }
 }
