@@ -1,6 +1,7 @@
 package com.welop.bank;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -11,6 +12,7 @@ public class Account {
     private String email;
     private int passwordHashcode;
     private Map<Lobby, Wallet> wallets;
+    private HashSet<Account> friends;
 
     /**
      * Returns account's name.
@@ -71,6 +73,7 @@ public class Account {
         setEmail(email);
         this.passwordHashcode = passwordHashcode;
         this.wallets = new HashMap<>();
+        this.friends = new HashSet<>();
     }
 
     /**
@@ -80,6 +83,17 @@ public class Account {
      */
     public Lobby createRoom(String name, GameSettings gameSettings) throws AlreadyJoinedException {
         return new Lobby(this, name, gameSettings);
+    }
+
+    /**
+     * Adds friend to friend list.
+     * @param friend New friend.
+     */
+    public void addFriend(Account friend) {
+        if (!friends.contains(friend)) {
+            friends.add(friend);
+            friend.addFriend(this);
+        }
     }
 
     @Override
